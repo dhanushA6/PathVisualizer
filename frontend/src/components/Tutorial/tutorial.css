@@ -1,0 +1,77 @@
+/* src/components/Tutorial.css */
+*{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.tutorial-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.tutorial-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tutorial-container h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #040a3f;
+}
+
+.tutorial-container p {
+    font-size: 18px;
+    color: #040a3f;
+    margin-top: 10px;
+}
+
+.tutorial-controls {
+    margin-top: 20px;
+} 
+
+.tutorial-container img{
+   
+    width: 400px;
+    height:fit-content;
+}
+
+.tutorial-controls button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tutorial-controls button:hover {
+    background-color: #555;
+}
+
+.tutorial-controls button:active {
+    background-color: #111;
+}
+
+.tutorial-controls button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+#previous:disabled {
+    display: none;
+}

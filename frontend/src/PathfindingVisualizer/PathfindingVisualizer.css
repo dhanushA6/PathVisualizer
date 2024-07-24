@@ -1,0 +1,244 @@
+/* General Navbar Styles */
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-color:  #43495d;
+  padding: 5px 5px;
+  border-radius: 3px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+}
+
+.navbar button,
+.navbar select,
+.navbar label {
+  margin: 8px;
+  padding: 10px 10px;
+  background-color: rgb(0, 13, 31);
+  border: none;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+ 
+.title{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  /* position: absolute; */
+  left: 20%;
+  font: bold;
+  color: rgb(211, 211, 218);
+  font-size: 24px; 
+  /* background: linear-gradient(135deg , rgb(214, 204, 204), white); */
+  border-radius: 3px;
+  padding: 3px;
+}
+.navbar button:disabled,
+.navbar select:disabled,
+.navbar label input:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.navbar button:hover:not(:disabled),
+.navbar select:hover:not(:disabled),
+.navbar label input:hover:not(:disabled) {
+  transform: scale(1.01);
+}
+
+.navbar button:active:not(:disabled),
+.navbar label input:active:not(:disabled) {
+  background-color: #021019;
+  transform: translateY(0);
+}
+
+.navbar select {
+  background-color: #fff;
+  color: #333;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+}
+
+.navbar select:focus {
+  outline: none;
+  border: 2px solid #21a1f1;
+}
+
+.navbar label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: white; 
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  background:  #021019;;
+}
+
+.navbar label input {
+  margin-left: 10px;
+  color: white(16, 16, 16);
+}
+
+/* Info Section Styles */
+/* Info Section Styles */
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  position: relative; /* To enable absolute positioning within */
+  height: 30px;
+  flex-wrap: wrap;
+}
+
+.loading-spinner {
+  font-size: 18px;
+  font-weight: bold;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#info-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+.node-info {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  justify-content: space-around;
+  left: 80%; 
+  align-items: center;
+  font-size: 18px;
+  margin-left: 2px;
+  font-weight: bold;
+}
+
+.node-info div {
+  width: 20px;
+  height: 20px;
+  margin: 10px;
+  border-radius: 4px;
+}
+
+.start-node {
+  background-color: green;
+  border-radius: 50% ;
+}
+
+.target-node {
+  background-color: red;
+  border-radius: 50%;
+}
+
+.wall-node {
+  background-color: rgb(12, 53, 71);
+}
+
+
+
+.grid{
+  text-align: center;
+}
+
+.navbar #clear {
+  background-color: #c31616; /* Red color for clear button */
+}
+
+.navbar #clear:disabled {
+  background-color: #555;
+}
+
+
+
+
+
+
+/* Responsive Styles */
+
+/* Small screens (phones) */
+@media (max-width: 600px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px;
+    border-radius: 8px;
+  } 
+  .node-info {
+    display: none;
+  }
+  
+
+  .controls button,
+  .controls select,
+  .controls label {
+    margin: 5px 0;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .grid {
+    flex-direction: column;
+  }
+
+  .grid-row {
+    flex-direction: column;
+  }
+}
+
+/* Medium screens (tablets) */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .controls {
+    padding: 15px;
+  }
+  .node-info {
+    display: none;
+ 
+  }
+
+  .controls button,
+  .controls select,
+  .controls label {
+    font-size: 15px;
+  }
+}
+
+/* Large screens (desktops) */
+@media (min-width: 1025px) {
+  .controls {
+    flex-direction: row;
+    padding: 20px;
+  }
+
+  .controls button,
+  .controls select,
+  .controls label {
+    font-size: 16px;
+  }
+} 
+
+
