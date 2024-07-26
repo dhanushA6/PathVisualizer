@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Node from "../components/Node/Node";
-import { dijkstra, getNodesInShortestPathOrder } from "../Algorithms/dijkstra";
+import { dijkstra, getNodesInShortestPathOrder } from "../Algorithms/dijkstra"; 
+import { aStar } from "../Algorithms/AStartSearch"; 
+import { greedyBestFirstSearch } from "../Algorithms/greedy"; 
+import AlgoData from "../data/algo_data";
 import {
   breadthFirstSearch,
   depthFirstSearch,
@@ -28,7 +31,7 @@ export default class PathfindingVisualizer extends Component {
         row: INITIAL_FINISH_NODE_ROW,
         col: INITIAL_FINISH_NODE_COL,
       },
-      selectedMazeType: "recursiveDivision",
+      selectedMazeType: "recursive",
       loading: false,
       animationSpeed: 10,
     };
@@ -106,11 +109,23 @@ export default class PathfindingVisualizer extends Component {
       const newGrid = getNewGridWithWallToggled(this.state.grid, row, col);
       this.setState({ grid: newGrid });
     }
-  }
+  } 
 
   handleMouseUp() {
     if (this.state.loading) return;
     this.setState({ mouseIsPressed: false, draggingNode: null });
+  } 
+
+  showInfo(text){
+      document.getElementById("info-text").innerHTML =
+      text;
+      // setTimeout(function () {
+      // document.getElementById("info-text").innerHTML = "";
+      // }, 5000);
+  }
+
+  clearInfo(){
+    document.getElementById("info-text").innerHTML = "";
   }
 
   animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder) {
@@ -152,8 +167,10 @@ export default class PathfindingVisualizer extends Component {
   }
 
   visualizeAlgorithm = async () => {
-    console.log(this.state.finishNode.row, this.state.finishNode.col);
+    // console.log(this.state.finishNode.row, this.state.finishNode.col);
+    
     if (this.state.loading) return;
+    this.clearInfo();
     await this.clearPathNodes();
     this.setLoading(true);
     const { grid, selectedAlgorithm, startNode, finishNode } = this.state;
@@ -174,6 +191,14 @@ export default class PathfindingVisualizer extends Component {
       case "bfs":
         visitedNodesInOrder = breadthFirstSearch(grid, start, finish);
         nodesInShortestPathOrder = getNodesInShortestPathOrder(finish); // Adjust if needed
+        break; 
+      case "astar":  
+        visitedNodesInOrder = aStar(grid, start, finish);
+        nodesInShortestPathOrder = getNodesInShortestPathOrder(finish)
+        break;
+      case "greedy":  
+        visitedNodesInOrder = greedyBestFirstSearch(grid, start, finish);
+        nodesInShortestPathOrder = getNodesInShortestPathOrder(finish)
         break;
       default:
         return;
@@ -181,6 +206,8 @@ export default class PathfindingVisualizer extends Component {
 
     await this.animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
     this.setLoading(false);
+    const text = AlgoData[selectedAlgorithm];
+    this.showInfo(text)
   };
 
   generateMaze = async () => {
@@ -206,7 +233,7 @@ export default class PathfindingVisualizer extends Component {
     });
 
     switch (selectedMazeType) {
-      case "recursiveDivision":
+      case "recursive":
         recursiveDivisionMaze(
           board,
           0,
@@ -256,7 +283,7 @@ export default class PathfindingVisualizer extends Component {
           if (index === board.wallsToAnimate.length - 1) {
             resolve();
           }
-        }, 10 * index);
+        }, 5 * index);
       });
     });
   };
@@ -297,7 +324,7 @@ export default class PathfindingVisualizer extends Component {
     const { grid } = this.state;
     const newGrid = grid.map((row) =>
       row.map((node) => {
-        if (!node.isStart) {
+        if (!node.isStart && !node.isFinish) {
           document.getElementById(`node-${node.row}-${node.col}`).className =
             "node";
         }
@@ -393,7 +420,10 @@ export default class PathfindingVisualizer extends Component {
           >
             <option value="dijkstra">Dijkstra's Algorithm</option>
             <option value="dfs">Depth-First Search</option>
+            <option value="astar">A* Search</option>
+            <option value="greedy">greedy(BestFirstSearch)</option>
             <option value="bfs">Breadth-First Search</option>
+            {/* <option value="bidirectional">BidirectionalSearch</option> */}
           </select>
 
           <button disabled={loading} onClick={() => this.generateMaze()}>
@@ -404,8 +434,8 @@ export default class PathfindingVisualizer extends Component {
             value={selectedMazeType}
             onChange={this.handleMazeTypeChange}
           >
-            <option value="recursiveDivision">Recursive Division</option>
-            <option value="stair">Stair Demonstration</option>
+            <option value="recursive">Recursive Maze</option>
+            <option value="stair">Stair Maze</option>
             <option value="random">Random Maze</option>
           </select> 
 
@@ -415,6 +445,13 @@ export default class PathfindingVisualizer extends Component {
             onClick={this.clearWallsAndPathNodes}
           >
             Clear Board
+          </button> 
+          <button
+            id="clear"
+            disabled={loading}
+            onClick={this.clearPathNodes}
+          >
+            Clear Visited Nodes
           </button> 
 
           
@@ -436,7 +473,8 @@ export default class PathfindingVisualizer extends Component {
           <div className="node-info">
             <div className="start-node"></div>Start 
             <div className="target-node"></div>End 
-            <div className="wall-node"></div>Wall 
+            <div id="wall-node"></div>Wall 
+            {/* <div id="short-path"></div>ShortestPath  */}
           </div>
           <div id="info-text"></div>
           {this.state.loading && (
