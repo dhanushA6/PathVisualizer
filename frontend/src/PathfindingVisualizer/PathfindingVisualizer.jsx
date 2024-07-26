@@ -56,13 +56,6 @@ export default class PathfindingVisualizer extends Component {
     if (this.state.loading) return;
 
     const node = this.state.grid[row][col];
-    if (node.isVisited) {
-      document.getElementById("info-text").innerHTML =
-        "Clear Board to Move Start and  End ";
-      setTimeout(function () {
-        document.getElementById("info-text").innerHTML = "";
-      }, 3000);
-    }
     if (node.isStart && !node.isVisited) {
       this.setState({ draggingNode: "start", mouseIsPressed: true });
     } else if (node.isFinish && !node.isVisited) {
@@ -119,9 +112,7 @@ export default class PathfindingVisualizer extends Component {
   showInfo(text){
       document.getElementById("info-text").innerHTML =
       text;
-      // setTimeout(function () {
-      // document.getElementById("info-text").innerHTML = "";
-      // }, 5000);
+     
   }
 
   clearInfo(){
@@ -283,7 +274,7 @@ export default class PathfindingVisualizer extends Component {
           if (index === board.wallsToAnimate.length - 1) {
             resolve();
           }
-        }, 5 * index);
+        }, 2 * index);
       });
     });
   };
@@ -297,6 +288,7 @@ export default class PathfindingVisualizer extends Component {
   };
 
   clearWalls = async () => {
+    this.clearInfo()
     const { grid } = this.state;
     const newGrid = grid.map((row) =>
       row.map((node) => {
@@ -319,7 +311,8 @@ export default class PathfindingVisualizer extends Component {
     });
   };
 
-  clearPathNodes = () => {
+  clearPathNodes = () => { 
+    this.clearInfo();
     if (this.state.loading) return;
     const { grid } = this.state;
     const newGrid = grid.map((row) =>
@@ -359,6 +352,7 @@ export default class PathfindingVisualizer extends Component {
   };
 
   clearWallsAndPathNodes = () => {
+    this.clearInfo();
     if (this.state.loading) return;
     const { grid } = this.state;
     const newGrid = grid.map((row) =>
