@@ -7,7 +7,11 @@ import AlgoData from "../data/algo_data";
 import {
   breadthFirstSearch,
   depthFirstSearch,
-} from "../Algorithms/unweightedSearchAlgorithm"; // Assuming you have these
+} from "../Algorithms/unweightedSearchAlgorithm"; 
+
+import { recursiveHorizontalMaze } from "../MazeAlgorithms/horizontal";
+import { recursiveVerticalMaze } from "../MazeAlgorithms/vertical";
+
 import "./PathfindingVisualizer.css";
 import { recursiveDivisionMaze } from "../MazeAlgorithms/recursiveDivisionMaze";
 import { stairDemonstration } from "../MazeAlgorithms/stairDemonstration";
@@ -31,7 +35,7 @@ export default class PathfindingVisualizer extends Component {
         row: INITIAL_FINISH_NODE_ROW,
         col: INITIAL_FINISH_NODE_COL,
       },
-      selectedMazeType: "recursive",
+      selectedMazeType: "stair",
       loading: false,
       animationSpeed: 10,
     };
@@ -227,11 +231,11 @@ export default class PathfindingVisualizer extends Component {
       case "recursive":
         recursiveDivisionMaze(
           board,
-          0,
-          board.height - 1,
-          0,
-          board.width - 1,
-          "horizontal",
+          1,
+          board.height - 2,
+          1,
+          board.width - 2,
+          "vertical",
           false,
           "wall"
         );
@@ -241,7 +245,31 @@ export default class PathfindingVisualizer extends Component {
         break;
       case "random":
         generateRandomMaze(board);
-        break;
+        break; 
+      case "vertical":
+          recursiveVerticalMaze(
+            board,
+            0,
+            board.height - 1,
+            0,
+            board.width - 1,
+            "vertical",
+            true,
+            "wall"
+          );
+          break;
+      case "horizontal":
+        recursiveHorizontalMaze(
+            board,
+            0,
+            board.height - 1,
+            0,
+            board.width - 1,
+            "horizontal",
+            true,
+            "wall"
+          );
+            break;
       default:
         break;
     }
@@ -428,9 +456,12 @@ export default class PathfindingVisualizer extends Component {
             value={selectedMazeType}
             onChange={this.handleMazeTypeChange}
           >
-            <option value="recursive">Recursive Maze</option>
+           
             <option value="stair">Stair Maze</option>
             <option value="random">Random Maze</option>
+            <option value="recursive">RecursiveDivision</option>
+            <option value="horizontal">HorizontalDivision</option>
+            <option value="vertical">VerticalDivision</option>
           </select> 
 
           <button
